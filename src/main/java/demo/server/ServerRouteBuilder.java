@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ServerRouteBuilder extends RouteBuilder {
 	@Bean
-	TimeBean timeBean() {
-		return new TimeBean();
+	DateTimeHashBean hashBean() {
+		return new DateTimeHashBean();
 	}
 	
 	@Bean
@@ -23,12 +23,11 @@ public class ServerRouteBuilder extends RouteBuilder {
 	public void configure() throws Exception {
 		from("timer://dateTimer?period=60000")
 			.routeId(getClass().getSimpleName())
-			.setBody(simple("date:now"))
+			.setBody(simple("${date:now}"))
 			.convertBodyTo(String.class)
-			.log("${body}")
+			.log("New time ${body}")
 			.bean("hasher")
-			.log("${body}")
-			.to("bean:timeBean?method=setDateTimeHash(${body})");
+			.to("bean:hashBean?method=setDateTimeHash(${body})");
 		
 		restConfiguration().component("jetty")
 			.bindingMode(RestBindingMode.json)
@@ -39,7 +38,9 @@ public class ServerRouteBuilder extends RouteBuilder {
 			.consumes("application/json")
 			.produces("application/json")
 			.get("/get")
-				.to("bean:timeBean?method=getDateTimeHash(${header.id})");
+				.route()
+				.to("bean:hashBean?method=getDateTimeHash(${header.id})")
+				.log("request for ${body}");
 
 	}
 

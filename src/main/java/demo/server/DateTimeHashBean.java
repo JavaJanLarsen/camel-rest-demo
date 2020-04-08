@@ -3,6 +3,6 @@ package demo.server;
 import lombok.Data;
 
 @Data
-public class TimeBean {
+public class DateTimeHashBean {
 	String dateTimeHash;
 }
