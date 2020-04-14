@@ -18,7 +18,7 @@
 		<camel.version>2.24.1</camel.version>
 	</properties>
 	<dependencies>
-        <dependency>
+		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring-boot-starter</artifactId>
 			<version>${camel.version}</version>
@@ -53,4 +53,36 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>${spring.boot.mainclass}</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+    <profile>
+        <id>server</id>
+        <properties>
+          <spring.boot.mainclass>demo.server.ServerMain</spring.boot.mainclass>
+        </properties>
+    </profile>
+    <profile>
+        <id>client</id>
+        <properties>
+          <spring.boot.mainclass>demo.server.ClientMain</spring.boot.mainclass>
+        </properties>
+    </profile>
+</profiles>
 </project>
