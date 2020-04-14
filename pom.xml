@@ -82,7 +82,7 @@
     <profile>
         <id>client</id>
         <properties>
-          <spring.boot.mainclass>demo.server.ClientMain</spring.boot.mainclass>
+          <spring.boot.mainclass>demo.client.ClientMain</spring.boot.mainclass>
         </properties>
     </profile>
 </profiles>
